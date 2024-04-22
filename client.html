@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Screenshot</title>
+    <style>
+        .image-container {
+            display: flex;
+            overflow: hidden;
+            padding-top: 7.5%;
+        }
+
+        .img1 {
+            clip-path: polygon(0% 0%, 85% 1%, 85% 50%, 85% 99%, 0% 100%);
+            max-width: 50%;
+            height: auto;
+        }
+
+        .img2 {
+            clip-path: polygon(15% 0%, 100% 1%, 100% 50%, 100% 99%, 15% 100%);
+            max-width: 50%;
+            height: auto;
+        }
+
+        .black-bar {
+            background-color: black;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <img id="screenshot1" alt="Screenshot" class="img1">
+        <div class="black-bar"></div>
+        <img id="screenshot2" alt="Screenshot" class="img2">
+    </div>
+    <script>
+        const socket = new WebSocket("ws://192.168.1.115:8765");
+
+        socket.onmessage = function (event) {
+            const image1 = document.getElementById("screenshot1");
+            const image2 = document.getElementById("screenshot2");
+            image1.src = "data:image/jpeg;base64," + event.data;
+            image2.src = image1.src;
+        };
+    </script>
+</body>
+</html>
